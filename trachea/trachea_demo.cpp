@@ -255,7 +255,7 @@ public:
         double angle = M_PI/180.0*joystick_x;
         angle /= 15.0;
         CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(0,0,angle));
-        G3D::Vector3 translation = _virtualToRoomSpace.translation - G3D::CoordinateFrame::toObjectSpace(_trackerFrames[string("Wand_Tracker")]).translation;
+        G3D::Vector3 translation = _virtualToRoomSpace.translation - _virtualToRoomSpace.toObjectSpace(_trackerFrames[string("Wand_Tracker")]).translation;
         //_virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
         _virtualToRoomSpace.translation -= translation;
         _virtualToRoomSpace = rotation*_virtualToRoomSpace;
