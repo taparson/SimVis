@@ -54,6 +54,9 @@ void OBJ::draw() const
 
 {
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_NORMALIZE);
+    glPushMatrix();
+    glScalef(.001,.001,.001);
     if(tex) {glBindTexture(GL_TEXTURE_2D,t_id); glEnable(GL_TEXTURE_2D);glEnableClientState(GL_TEXTURE_COORD_ARRAY);}
 
     glBindBuffer(GL_ARRAY_BUFFER,v_id);
@@ -70,6 +73,7 @@ void OBJ::draw() const
     if(norm)glNormalPointer(GL_FLOAT,stride,(void *) (count*sizeof(float)));
     glDrawArrays(GL_TRIANGLES,0,numVertices);
     glBindBuffer(GL_ARRAY_BUFFER,0);
+    glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 
 }
