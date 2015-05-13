@@ -53,7 +53,7 @@ private:
     unsigned int bindVBO(std::vector<float> &vbo);
     int numVertices;
     unsigned int v_id, t_id;
-    bool tex=true,norm=false;
+    bool tex,norm;
     // std::vector<float> vbo;
 };
 
