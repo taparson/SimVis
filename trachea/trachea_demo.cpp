@@ -69,7 +69,9 @@ public:
         OBJ t = OBJ();
         _trachea.push_back(t);
         std::string str = "objectFiles/P_Surface";
-        str += std::to_string(i);
+        std::stringstream ss;
+        ss << i;
+        str += ss.str();
         str += ".obj";
         t.read(str);
       }
