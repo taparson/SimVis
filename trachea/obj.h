@@ -9,6 +9,7 @@
 struct Vertex;
 
 // A simple parser that reads and writes Wavefront .obj files
+
 using namespace G3D;
 class OBJ
 {
@@ -40,7 +41,7 @@ public:
     std::vector<Triangle> triangles;
 
     void draw() const;
-    bool read(const std::string &path);
+    bool read(const std::string &path, const std::string &texturePath);
     // bool write(const QString &path) const;
 
 private:
@@ -48,12 +49,7 @@ private:
     void drawIndex(const Index &index) const;
     static std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
     static std::vector<std::string> split(const std::string &s, char delim);
-    void constructVBOs();
-    unsigned int bindVBO(std::vector<float> &vbo);
-    unsigned int v_id;
-    bool norm,tex;
-    int numVertices;
-
+    unsigned int t_id;
 };
 
 #endif // OBJ_H

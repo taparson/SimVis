@@ -5,56 +5,50 @@
 
 #include <iostream>
 #include <fstream>
+#include <iostream>
+#include "SOIL.h"
 
 using namespace std;
 
 void OBJ::draw() const
-// {
-//     // std::cout << "woof" << std::endl;
-//     // std::cout << "size: " << triangles.size() << std::endl;
-//     // std::cout << "woof" << std::endl;
-//     glColor3f(1.0,1.0,1.0);
-//     glBegin(GL_TRIANGLES);
-//     //foreach (const Triangle &tri, triangles) {
-//     for (int i = 0; i < triangles.size(); i++)  {
+{
+    // std::cout << "woof" << std::endl;
+    // std::cout << "size: " << triangles.size() << std::endl;
+    // std::cout << "woof" << std::endl;
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_DEPTH_TEST);
+    glBindTexture(GL_TEXTURE_2D,t_id);
+   
+    glBegin(GL_TRIANGLES);
+    for (int i = 0; i < triangles.size(); i++) {
+        // std::cout << "here!" << std::endl;
+        Triangle tri = triangles[i];
+        drawIndex(tri.a);
+        drawIndex(tri.b);
+        drawIndex(tri.c);
+    }
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+}
 
-//         Triangle tri = triangles[i];
-//         // std::cout << "here!" << std::endl;
-//         drawIndex(tri.a);
-//         drawIndex(tri.b);
-//         drawIndex(tri.c);
-//     }
-//     glEnd();
-// }
- {
-    glBindBuffer(GL_ARRAY_BUFFER,v_id);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glEnableClientState(GL_NORMAL_ARRAY);
-
-    int strideMult = 3;
-    if(tex) strideMult+=2;
-    if(norm) strideMult+=3;
-
-    unsigned int stride = sizeof(float) * strideMult;
-    glVertexPointer(3,GL_FLOAT,stride,(void *) 0);
-    glTexCoordPointer(2,GL_FLOAT,stride,(void *) (3*sizeof(float)));
-    glNormalPointer(GL_FLOAT,stride,(void *) (5*sizeof(float)));
-
-    glDrawArrays(GL_TRIANGLES,0,numVertices);
-    glBindBuffer(GL_ARRAY_BUFFER,0);
-
- }
-
-
-bool OBJ::read(const std::string &path)
+bool OBJ::read(const std::string &path, const std::string &texturePath)
 {
     // Open the file
     // QFile file(path);
     // if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
     // QTextStream f(&file);
     // QString line;
-    std::cout << "reading..." << std::endl;
+
+    unsigned int id = SOIL_load_OGL_texture(texturePath.c_str(),SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
+    if(id == 0) return -1;
+    glBindTexture(GL_TEXTURE_2D, id);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+
+    t_id = id;    
+
     std::string line;
     ifstream myfile (path.c_str(),std::ifstream::in);
     if (myfile.is_open())
@@ -103,14 +97,10 @@ bool OBJ::read(const std::string &path)
             }
 
         }
-        std::cout << "done" << std::endl;
         myfile.close();
-        if (coords.size() > 0) tex = true;
-        if (normals.size() > 0) norm = true;
-        constructVBOs();
     }
 
-    else cout << "Unable to open file"; 
+  else cout << "Unable to open file"; 
 
     // Read the file
     // QRegExp spaces("\\s+");
@@ -138,51 +128,6 @@ bool OBJ::read(const std::string &path)
     // } while (!line.isNull());
 
     return true;
-}
-
-void OBJ::constructVBOs()  {
-    std::vector<float> vbo;
-    for(int i = 0; i < triangles.size(); i++)  {
-        Triangle t = triangles[i];
-        std::vector<Index> inds;
-        inds.push_back(t.a);
-        inds.push_back(t.b);
-        inds.push_back(t.c);
-        for(int j = 0; j < 3; j++)  {
-            Index ind = inds[j];
-            if (ind.vertex >= 0 && ind.vertex < vertices.size())  {
-                vbo.push_back(vertices[ind.vertex].x);
-                vbo.push_back(vertices[ind.vertex].y);
-                vbo.push_back(vertices[ind.vertex].z);
-                numVertices += 1;
-            }
-            if(ind.coord >= 0 && ind.coord < coords.size())  {
-                vbo.push_back(coords[ind.coord].x);
-                vbo.push_back(coords[ind.coord].y);
-            }
-            if (ind.normal >= 0 && ind.normal < normals.size())  {
-                vbo.push_back(normals[ind.normal].x);
-                vbo.push_back(normals[ind.normal].y);
-                vbo.push_back(normals[ind.normal].z);
-            }
-        }
-    }
-    vertices = std::vector<Vector3>();
-    normals = std::vector<Vector3>();
-    coords = std::vector<Vector2>();
-    triangles = std::vector<Triangle>();
-    v_id = bindVBO(vbo);
-
-}
-
-unsigned int OBJ::bindVBO(std::vector<float> &vbo)  {
-    unsigned int id;
-    glGenBuffers(1,&id);
-    glBindBuffer(GL_ARRAY_BUFFER,id);
-
-    glBufferData(GL_ARRAY_BUFFER,sizeof(vbo),&(*vbo.begin()),GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER,0);
-    return id;
 }
 
 std::vector<std::string> &OBJ::split(const std::string &s, char delim, std::vector<std::string> &elems) {

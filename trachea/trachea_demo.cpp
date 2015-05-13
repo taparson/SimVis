@@ -12,8 +12,8 @@
 
 #include <vrg3d/VRG3D.h>
 #include <GL/glut.h>
-//#include "obj.cpp"
 #include "obj.h"
+using namespace G3D;
 
 //extern void draw_pieces(), init_pieces();
 
@@ -43,18 +43,18 @@ public:
     // board, which is confusing for the viewer on startup, and
     // renders poorly too. Let's move the virtual space up a few units
     // for a more sensible view.
-    //_virtualToRoomSpace = CoordinateFrame(Vector3(0,-3.0,0)) * _virtualToRoomSpace;
+    _virtualToRoomSpace = CoordinateFrame(Vector3(0,-3.0,0)) * _virtualToRoomSpace;
 
     // This is the background -- the color that appears where there is
     // nothing to render, and we'll use a nice soothing blue.
-    _clearColor = Color3(0.25, 0.25, 0.55);
+    _clearColor = Color3(1.0, 1.0, 1.0);
     
     // The actual models of the chess pieces are pretty messy, so they 
     // are confined to another code file for the sake of tidiness.
     //load_trachea('cube.obj');
-    _trachea = new OBJ();
-    //_trachea->read("objectFiles/cube.obj");
-    _trachea->read("objectFiles/cube.obj");
+    _trachea = OBJ();
+    //_trachea.read("objectFiles/Pterostichus2-1-lq.obj");
+    _trachea.read("objectFiles/entireScene.obj","objectFiles/crackedDirtSized.png");
   }
 
   virtual ~MyVRApp() {}
@@ -66,6 +66,7 @@ public:
     // mouse events and generate new events as if it were a 6DOF
     // tracking device.  We add the new events to the event queue and
     // process them as usual.
+
     static double joystick_x = 0.0;
     static double joystick_y = 0.0;
 
@@ -213,7 +214,7 @@ public:
 
     // Translate
     if (fabs(joystick_y) > 0.0 && _trackerFrames.containsKey("Wand_Tracker") == true) {
-      _virtualToRoomSpace.translation -= .005f*joystick_y*_trackerFrames[string("Wand_Tracker")].lookVector();
+      _virtualToRoomSpace.translation -= .05f*joystick_y*_trackerFrames[string("Wand_Tracker")].lookVector();
     }
      
     }  
@@ -240,7 +241,7 @@ public:
 
     Array<std::string> trackerNames = _trackerFrames.getKeys();
 
-    for (int i=0;i<trackerNames.size();i++)
+    /*for (int i=0;i<trackerNames.size();i++)
     {  CoordinateFrame trackerFrame = _trackerFrames[trackerNames[i]];
     
         // Draw laser pointer.
@@ -266,7 +267,7 @@ public:
 
        }
 
-    }
+    }*/
 
 
     // The tracker frames above are drawn with the object to world
@@ -282,8 +283,8 @@ public:
     rd->disableLighting();
     rd->pushState();
     rd->setObjectToWorldMatrix(_virtualToRoomSpace);
-    
-      /* Paramters for our light, including color and position */
+    /*
+      // Paramters for our light, including color and position 
     GLfloat ambient[] = {0.0, 0.0, 0.0, 1.0};
     GLfloat diffuse[] = {1.0, 1.0, 1.0, 1.0};
     GLfloat position[] = {0.0, 3.0, 3.0, 0.0};
@@ -297,9 +298,9 @@ public:
     glLightModelfv (GL_LIGHT_MODEL_LOCAL_VIEWER, local_view);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 
-    /*  These functions change how the object gets drawn */
+      These functions change how the object gets drawn 
     glEnable (GL_DEPTH_TEST);
-    glShadeModel(GL_SMOOTH);
+    //glShadeModel(GL_SMOOTH);
     //glEnable(GL_CULL_FACE);
     glEnable (GL_LIGHTING);
     glEnable (GL_LIGHT0);
@@ -333,29 +334,21 @@ public:
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glDisable(GL_LIGHTING);
-
-    rd->setObjectToWorldMatrix(_virtualToRoomSpace);
-
-    rd->beginOpenGL();
-    _trachea->draw();
-    rd->endOpenGL();
-      
-
-    // This draws a simple piece of geometry using G3D::Draw at the
-    // origin of Virtual Space.
-    //
-    Draw::axes( CoordinateFrame(), rd,
-                Color3::red(), Color3::green(), Color3::blue(), 0.25 );
-
+    rd->disableLighting();
+    */
+ //   glColor3f(0.2,0.4,.4);    
+    _trachea.draw();
+    glColor3f(1.0,1.0,1.0);
     rd->popState();
-  }
+     
+}
 
 protected:
   Table<std::string, CoordinateFrame> _trackerFrames;
   GFontRef          _font;
   MouseToTrackerRef _mouseToTracker;
   CoordinateFrame   _virtualToRoomSpace;
-  OBJ*              _trachea;
+  OBJ               _trachea;
 };
 
 

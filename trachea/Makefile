@@ -10,13 +10,28 @@ TARGET = chess demo trachea
 ### installed in the system-wide directories.
 
 ifeq ($(shell if [ -d /research/graphics ] ; then echo 1; fi),1)
+
   # CS Dept
   EXTRA_INCLUDES = -I$(G)/install_linux/include -I$(G)/install_linux/include/vrg3d
   EXTRA_LIBS = -L$(G)/install_linux/lib -L$(G)/install_linux/lib/vrg3d
+  SCALABLE_LIB = 
+
 else
+ifeq ($(shell if [ -d /gpfs/runtime/opt/cave/ccv ] ; then echo 1; fi), 1)
+
+  # Yurt
+  EXTRA_INCLUDES = -I$(G)/install_linux/include -I$(G)/install_linux/include/vrg3d
+  EXTRA_LIBS = -L$(G)/install_linux/lib -L$(G)/install_linux/lib/vrg3d
+  SCALABLE_LIB = -Xlinker -lmplEasyBlendSDK
+
+else
+
   # CCV - Granoff
-  EXTRA_INCLUDES = -I/share/cave/include
-  EXTRA_LIBS = -L/share/cave/lib
+  EXTRA_INCLUDES = -I/share/cave/include -I$(G)/install_linux/include -I$(G)/install_linux/include/vrg3d  -I/gpfs/runtime/opt/vrpn/7.31/include
+  EXTRA_LIBS = -L/share/cave/lib  -L$(G)/install_linux/lib -L$(G)/install_linux/lib/vrg3d -L/gpfs/runtime/opt/vrpn/7.31/lib
+  SCALABLE_LIB = 
+
+endif
 endif
 
 
@@ -28,14 +43,22 @@ OBJS = $(SRCS:%.cpp=$(OBJDIR)/%.o)
 
 INCLUDE_DIRS = -I. $(EXTRA_INCLUDES)
 
+SOIL_BASE = soil
+
+INCLUDE_DIRS += -I$(SOIL_BASE)
+
 LIB_DIRS = $(EXTRA_LIBS)
+
+LIB_DIRS += -L$(SOIL_BASE)
 
 LIBS = -Xlinker --start-group  -Xlinker -ldl  -Xlinker -lX11 -Xlinker \
 	-lXext  -Xlinker -lpthread  -Xlinker -lz  -Xlinker -ljpeg  -Xlinker \
 	-lpng  -Xlinker -lzip  -Xlinker -lSDL -Xlinker -lvrg3d  -Xlinker \
-	-lavutil  -Xlinker -lavformat  -Xlinker -lavcodec  -Xlinker -lGLG3Dd \
-	-Xlinker -lG3Dd -Xlinker -lGLU -Xlinker -lGL -Xlinker --end-group \
-	-lvrpn -lglut -lXmu
+	-lavutil  -Xlinker -lavformat  -Xlinker -lavcodec  -Xlinker -lGLG3D \
+	-Xlinker -lG3D -Xlinker -lGLU -Xlinker -lGL -Xlinker -lvrpn \
+	-Xlinker -lglut -Xlinker -lXmu $(SCALABLE_LIB) \
+	-Xlinker --end-group \
+        -lSOIL
 
 all: chess demo trachea
 
@@ -47,7 +70,6 @@ demo: obj/vrg3d_demo.o
 
 trachea: obj/trachea_demo.o obj/obj.o
 	$(CPP) $(LDFLAGS) -o trachea $^ $(LIB_DIRS) $(LIBS)
-
 #$(TARGET) : $(OBJS) 
 #	$(CPP) $(LDFLAGS) -o $(TARGET) $(OBJS) $(LIB_DIRS) $(LIBS)
 

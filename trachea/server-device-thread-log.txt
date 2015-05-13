@@ -1,0 +1,23 @@
+Application Log
+Start: Tue May 12 17:25:06 2015
+
+ConfigMap parsing file "/share/cave/share/vrsetup/cave-devices-audiocave.cfg".
+ConfigMap Warning: no mapping for 'Head_Tracker_PropToTracker'.
+ConfigMap Warning: no mapping for 'Head_Tracker_FinalOffset'.
+ConfigMap Warning: no mapping for 'Optitrack_ConvertLHtoRH'.
+ConfigMap Warning: no mapping for 'Optitrack_IgnoreZeroes'.
+Creating new VRPNTrackerDevice ( Head@tcp:cave9.ccv.brown.edu)
+ConfigMap Warning: no mapping for 'WirelessMouse_Tracker_PropToTracker'.
+ConfigMap Warning: no mapping for 'WirelessMouse_Tracker_FinalOffset'.
+ConfigMap Warning: no mapping for 'Optitrack2_ConvertLHtoRH'.
+ConfigMap Warning: no mapping for 'Optitrack2_IgnoreZeroes'.
+Creating new VRPNTrackerDevice ( Wand1@tcp:cave9.ccv.brown.edu)
+ConfigMap Warning: no mapping for 'Wand_Tracker_PropToTracker'.
+ConfigMap Warning: no mapping for 'Wand_Tracker_FinalOffset'.
+ConfigMap Warning: no mapping for 'Optitrack3_ConvertLHtoRH'.
+ConfigMap Warning: no mapping for 'Optitrack3_IgnoreZeroes'.
+Creating new VRPNTrackerDevice ( Wand0@tcp:cave9.ccv.brown.edu)
+Creating new VRPNButtonDevice (Lenovo0@cave9.ccv.brown.edu:3121)
+Creating new VRPNAnalogDevice (Lenovo0@cave9.ccv.brown.edu:3121)
+Creating new VRPNAnalogDevice (Joystick0@tcp:cave9.ccv.brown.edu:3121)
+Creating new VRPNButtonDevice (Joystick0@cave9.ccv.brown.edu:3121)
