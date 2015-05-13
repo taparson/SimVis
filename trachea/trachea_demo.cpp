@@ -52,12 +52,26 @@ public:
     // The actual models of the chess pieces are pretty messy, so they 
     // are confined to another code file for the sake of tidiness.
     //load_trachea('cube.obj');
-    _trachea = OBJ();
-    _trachea.read("objectFiles/Pterostichus2-1-lq.obj");
+    intialize();
     //_trachea.read("objectFiles/entireScene.obj");//,"objectFiles/crackedDirtSized.png");
   }
 
   virtual ~MyVRApp() {}
+
+  void intialize()  {
+    if(_train)  {
+      OBJ t = OBJ();
+      _trachea.push_back(t);
+      t.read("objectFiles/Pterostichus2-1-lq.obj");
+    }
+    else  {
+      for (int i = 0; i < 25; i++)  {
+        OBJ t = OBJ();
+        _trachea.push_back(t);
+        t.read("objectFiles/P_Surface" + i + ".obj");
+      }
+    }
+  }
 
   void doUserInput(Array<VRG3D::EventRef> &events)
   {
@@ -336,8 +350,14 @@ public:
     //glDisable(GL_LIGHTING);
     //rd->disableLighting();
     
-    glColor3f(0.2,0.4,.4);    
-    _trachea.draw();
+    glPushMatrix();    
+    glScalef(.001,.001,.001);
+    glColor3f(0.794,0.794,.794);
+    glEnable(GL_NORMALIZE);
+    for (int i = 0; i < _trachea.size(); i++)  {
+      _trachea[i].draw();
+    }
+    glPopMatrix();
     glColor3f(1.0,1.0,1.0);
     rd->popState();
 
@@ -351,7 +371,8 @@ protected:
   GFontRef          _font;
   MouseToTrackerRef _mouseToTracker;
   CoordinateFrame   _virtualToRoomSpace;
-  OBJ               _trachea;
+  std::vector<OBJ>  _trachea;
+  bool              _train;
 };
 
 
