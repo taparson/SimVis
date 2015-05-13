@@ -240,7 +240,7 @@ public:
     // Rotate
     if(!_grab && !_rotate) {
       if (fabs(joystick_x) > 0.01) {
-        _virtualToRoomSpace.translation -= .015f*joystick_x*Vector3(1,0,0);
+        _virtualToRoomSpace.translation -= .015f*joystick_x*Vector3(-1.0,0,0);
         //fprintf(stderr, "Joystick x: %lf\n", joystick_x);
       }
 
@@ -255,11 +255,11 @@ public:
         double angle = M_PI/180.0*joystick_x;
         angle /= 15.0;
         CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(0,0,angle));
-        G3D::Vector3 translation = _virtualToRoomSpace.translation - _virtualToRoomSpace.toObjectSpace(_trackerFrames[string("Wand_Tracker")]).translation;
+        //G3D::Vector3 translation = _virtualToRoomSpace.translation - _virtualToRoomSpace.toObjectSpace(_trackerFrames[string("Wand_Tracker")]).translation;
         //_virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
-        _virtualToRoomSpace.translation -= translation;
+        //_virtualToRoomSpace.translation -= translation;
         _virtualToRoomSpace = rotation*_virtualToRoomSpace;
-        _virtualToRoomSpace.translation += translation;
+        //_virtualToRoomSpace.translation += translation;
       }
 
       // Translate
@@ -268,11 +268,11 @@ public:
         double angle = M_PI/180.0*joystick_y;
         angle /= 15.0;
         CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(angle,0,0));
-        G3D::Vector3 translation = _virtualToRoomSpace.translation - _trackerFrames[string("Wand_Tracker")].translation;
+        //G3D::Vector3 translation = _virtualToRoomSpace.translation - _trackerFrames[string("Wand_Tracker")].translation;
         //_virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
-        _virtualToRoomSpace.translation -= translation;
+        //_virtualToRoomSpace.translation -= translation;
         _virtualToRoomSpace = rotation*_virtualToRoomSpace;
-        _virtualToRoomSpace.translation += translation;
+        //_virtualToRoomSpace.translation += translation;
       }
     }
     else  {
@@ -280,11 +280,11 @@ public:
         double angle = M_PI/180.0*joystick_x;
         angle /= 15.0;
         CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(0,angle,0));
-        G3D::Vector3 translation = _virtualToRoomSpace.translation - _trackerFrames[string("Wand_Tracker")].translation;
+        //G3D::Vector3 translation = _virtualToRoomSpace.translation - _trackerFrames[string("Wand_Tracker")].translation;
         //_virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
-        _virtualToRoomSpace.translation -= translation;
+        //_virtualToRoomSpace.translation -= translation;
         _virtualToRoomSpace = rotation*_virtualToRoomSpace;
-        _virtualToRoomSpace.translation += translation;
+        //_virtualToRoomSpace.translation += translation;
       }
     }
      
