@@ -68,7 +68,10 @@ public:
       for (int i = 0; i < 25; i++)  {
         OBJ t = OBJ();
         _trachea.push_back(t);
-        t.read("objectFiles/P_Surface" + i + ".obj");
+        std::string str = "objectFiles/P_Surface";
+        str += std::to_string(i);
+        str += ".obj";
+        t.read(str);
       }
     }
   }
