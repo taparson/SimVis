@@ -56,6 +56,7 @@ void OBJ::draw() const
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
     glPushMatrix();
+    glTranslatef(-1.0f*center.x,-1.0f*center.y,-1.0f*center.z)
     glScalef(.001,.001,.001);
     if(tex) {glBindTexture(GL_TEXTURE_2D,t_id); glEnable(GL_TEXTURE_2D);glEnableClientState(GL_TEXTURE_COORD_ARRAY);}
 
@@ -126,9 +127,16 @@ bool OBJ::read(const std::string &path, const std::string &texturePath)
                 // newParts.append(part3);
             }
             else{}
-
+            Vector3 mins = Vector3(std::numeric_limits<float>::max(),std::numeric_limits<float>::max(),std::numeric_limits<float>::max());
+            Vector3 maxes = Vector3(std::numeric_limits<float>::min(),std::numeric_limits<float>::min(),std::numeric_limits<float>::min());
             if (parts[0] == "v" && parts.size() >= 4) {
                 vertices.push_back(Vector3(part1, part2, part3));
+                if(part1 > maxes.x) maxes.x = part1;
+                if(part2 > maxes.y) maxes.y = part2;
+                if(part3 > maxes.z) maxes.z = part3;
+                if(part1 < mins.x) mins.x = part1;
+                if(part2 < mins.y) mins.y= part2;
+                if(part3 < mins.z) mins.z= part3;
             } else if (parts[0] == "vt" && parts.size() >= 3) {
                 coords.push_back(Vector2(part1, part2));
             } else if (parts[0] == "vn" && parts.size() >= 4) {
@@ -174,6 +182,7 @@ bool OBJ::read(const std::string &path, const std::string &texturePath)
         //if (coords.size() > 0) tex = true;
         if (normals.size() > 0) norm = true;
         //constructVBOs(vbo);
+        center = Vector3((maxes.x-mins.x)/2.0f,(maxes.y-mins.y)/2.0f,(maxes.z-mins.z)/2.0f);
         vertices = std::vector<Vector3>();
         normals = std::vector<Vector3>();
         coords = std::vector<Vector2>();
