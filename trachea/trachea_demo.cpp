@@ -275,7 +275,7 @@ public:
         //_virtualToRoomSpace.translation += translation;
       }
     }
-    else  {
+    else if (_rotate && !_grab) {
       if(fabs(joystick_x) > 0.0 ) {
         double angle = M_PI/180.0*joystick_x;
         angle /= 15.0;
@@ -286,6 +286,11 @@ public:
         _virtualToRoomSpace = rotation*_virtualToRoomSpace;
         //_virtualToRoomSpace.translation += translation;
       }
+    }
+
+    else  {
+      _virtualToRoomSpace = CoordinateFrame();
+      _virtualToRoomSpace = CoordinateFrame(Vector3(0,-3.0,0)) * _virtualToRoomSpace;
     }
      
     }  
@@ -427,7 +432,7 @@ protected:
   Table<std::string, CoordinateFrame> _trackerFrames;
   GFontRef          _font;
   MouseToTrackerRef _mouseToTracker;
-  CoordinateFrame   _virtualToRoomSpace;
+  CoordinateFrame   _virtualToRoomSpace,_oldVirtualToRoomSpace;
   std::vector<OBJ>  _trachea;
   bool              _train,_grab,_rotate;
 };
