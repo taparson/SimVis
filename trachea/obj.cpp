@@ -11,48 +11,92 @@
 using namespace std;
 
 void OBJ::draw() const
-{
-    // std::cout << "woof" << std::endl;
-    // std::cout << "size: " << triangles.size() << std::endl;
-    // std::cout << "woof" << std::endl;
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_DEPTH_TEST);
-    glBindTexture(GL_TEXTURE_2D,t_id);
+// {
+//     glEnable(GL_TEXTURE_2D);
+//     glEnable(GL_DEPTH_TEST);
+//     glBindTexture(GL_TEXTURE_2D,t_id);
    
-    glBegin(GL_TRIANGLES);
-    for (int i = 0; i < triangles.size(); i++) {
-        // std::cout << "here!" << std::endl;
-        Triangle tri = triangles[i];
-        drawIndex(tri.a);
-        drawIndex(tri.b);
-        drawIndex(tri.c);
-    }
-    glEnd();
+//     glBegin(GL_TRIANGLES);
+//     for (int i = 0; i < triangles.size(); i++) {
+//         // std::cout << "here!" << std::endl;
+//         Triangle tri = triangles[i];
+//         drawIndex(tri.a);
+//         drawIndex(tri.b);
+//         drawIndex(tri.c);
+//     }
+//     glEnd();
+//     glDisable(GL_TEXTURE_2D);
+// }
+
+// {
+//     // std::cout << "woof" << std::endl;
+//     // std::cout << "size: " << triangles.size() << std::endl;
+//     // std::cout << "woof" << std::endl;
+//     glEnable(GL_TEXTURE_2D);
+//     glEnable(GL_DEPTH_TEST);
+//     glBindTexture(GL_TEXTURE_2D,t_id);
+//     int strideMult = 3;
+//     if(tex) strideMult+=2;
+//     if(norm) strideMult+=3;
+
+//     unsigned int stride = sizeof(float) * strideMult;
+//     glBegin(GL_TRIANGLES);
+
+//     for (int i = 0; i < numVertices; i++) {
+//         // std::cout << "here!" << std::endl;
+//         if(tex) glTexCoord2f(vbo[i*strideMult + 3],vbo[i*strideMult + 4]);
+//         if(norm) glNormal3f(vbo[i*strideMult + 5],vbo[i*strideMult + 6],vbo[i*strideMult + 7]);
+//         glVertex3f(vbo[i*strideMult + 0],vbo[i*strideMult + 1],vbo[i*strideMult + 2]);
+//     }
+//     glEnd();
+//     glDisable(GL_TEXTURE_2D);
+// }
+
+{
+    glEnable(GL_DEPTH_TEST);
+    if(tex) {glBindTexture(GL_TEXTURE_2D,t_id); glEnable(GL_TEXTURE_2D);glEnableClientState(GL_TEXTURE_COORD_ARRAY);}
+
+    glBindBuffer(GL_ARRAY_BUFFER,v_id);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    if(norm) glEnableClientState(GL_NORMAL_ARRAY);
+    int strideMult = 3;
+    if(tex) strideMult+=2;
+    if(norm) strideMult+=3;
+
+    int count = 3;
+    unsigned int stride = sizeof(float) * strideMult;
+    glVertexPointer(3,GL_FLOAT,stride,(void *) 0);
+    if(tex){glTexCoordPointer(2,GL_FLOAT,stride,(void *) (count*sizeof(float))); count += 2;}
+    if(norm)glNormalPointer(GL_FLOAT,stride,(void *) (count*sizeof(float)));
+    glDrawArrays(GL_TRIANGLES,0,numVertices);
+    glBindBuffer(GL_ARRAY_BUFFER,0);
     glDisable(GL_TEXTURE_2D);
+
 }
+
 
 bool OBJ::read(const std::string &path, const std::string &texturePath)
 {
     // Open the file
-    // QFile file(path);
-    // if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
-    // QTextStream f(&file);
-    // QString line;
+    std::cout << "reading..." << std::endl;
+    if(texturePath != "")  {
+        unsigned int id = SOIL_load_OGL_texture(texturePath.c_str(),SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
+        if(id == 0) return -1;
+        glBindTexture(GL_TEXTURE_2D, id);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
 
-    unsigned int id = SOIL_load_OGL_texture(texturePath.c_str(),SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
-    if(id == 0) return -1;
-    glBindTexture(GL_TEXTURE_2D, id);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
-
-    t_id = id;    
+        t_id = id;    
+    }
+    else tex = false;
 
     std::string line;
     ifstream myfile (path.c_str(),std::ifstream::in);
     if (myfile.is_open())
-    {
+    {   
+        std::vector<float> vbo;
         while ( getline (myfile,line) )
         {
             // cout << line << '\n';
@@ -91,43 +135,97 @@ bool OBJ::read(const std::string &path, const std::string &texturePath)
                 Index b = getIndex(parts[2]);
                 for (int i = 3; i < parts.size(); i++) {
                     Index c = getIndex(parts[i]);
-                    triangles.push_back(Triangle(a, b, c));
+                    //triangles.push_back(Triangle(a, b, c));
+                    std::vector<Index> inds;
+                    inds.push_back(a);
+                    inds.push_back(b);
+                    inds.push_back(c);
+                    for(int j = 0; j < 3; j++)  {
+                        Index ind = inds[j];
+                        if (ind.vertex >= 0 && ind.vertex < vertices.size())  {
+                            vbo.push_back(vertices[ind.vertex].x);
+                            vbo.push_back(vertices[ind.vertex].y);
+                            vbo.push_back(vertices[ind.vertex].z);
+                            numVertices += 1;
+                        }
+                        if(ind.coord >= 0 && ind.coord < coords.size() && tex)  {
+                            std::cout << "meow" << std::endl;
+                            vbo.push_back(coords[ind.coord].x);
+                            vbo.push_back(coords[ind.coord].y);
+                        }
+                        if (ind.normal >= 0 && ind.normal < normals.size())  {
+                            vbo.push_back(normals[ind.normal].x);
+                            vbo.push_back(normals[ind.normal].y);
+                            vbo.push_back(normals[ind.normal].z);
+                        }
+                    }
                     b = c;
                 }
             }
 
         }
         myfile.close();
+        //if (coords.size() > 0) tex = true;
+        if (normals.size() > 0) norm = true;
+        //constructVBOs(vbo);
+        vertices = std::vector<Vector3>();
+        normals = std::vector<Vector3>();
+        coords = std::vector<Vector2>();
+        std::cout << "binding vbo..." << std::endl;
+        v_id = bindVBO(vbo);
+        std::cout << "done reading file" << std::endl;
     }
 
   else cout << "Unable to open file"; 
 
-    // Read the file
-    // QRegExp spaces("\\s+");
-    // do {
-    //     line = f.readLine().trimmed();
-    //     QStringList parts = line.split(spaces);
-    //     if (parts.isEmpty()) continue;
-
-    //     if (parts[0] == "v" && parts.count() >= 4) {
-    //         vertices += Vector3(parts[1].toFloat(), parts[2].toFloat(), parts[3].toFloat());
-    //     } else if (parts[0] == "vt" && parts.count() >= 3) {
-    //         coords += Vector2(parts[1].toFloat(), parts[2].toFloat());
-    //     } else if (parts[0] == "vn" && parts.count() >= 4) {
-    //         normals += Vector3(parts[1].toFloat(), parts[2].toFloat(), parts[3].toFloat());
-    //     } else if (parts[0] == "f" && parts.count() >= 4) {
-    //         // Convert polygons into triangle fans
-    //         Index a = getIndex(parts[1]);
-    //         Index b = getIndex(parts[2]);
-    //         for (int i = 3; i < parts.count(); i++) {
-    //             Index c = getIndex(parts[i]);
-    //             triangles += Triangle(a, b, c);
-    //             b = c;
-    //         }
-    //     }
-    // } while (!line.isNull());
-
     return true;
+}
+
+void OBJ::constructVBOs()  {
+    std::vector<float> vbo;
+    numVertices = 0;
+    std::cout << triangles.size() << std::endl;
+    for(int i = 0; i < triangles.size(); i++)  {
+        Triangle t = triangles[i];
+        std::vector<Index> inds;
+        inds.push_back(t.a);
+        inds.push_back(t.b);
+        inds.push_back(t.c);
+        for(int j = 0; j < 3; j++)  {
+            Index ind = inds[j];
+            if (ind.vertex >= 0 && ind.vertex < vertices.size())  {
+                vbo.push_back(vertices[ind.vertex].x);
+                vbo.push_back(vertices[ind.vertex].y);
+                vbo.push_back(vertices[ind.vertex].z);
+                numVertices += 1;
+            }
+            if(ind.coord >= 0 && ind.coord < coords.size())  {
+                vbo.push_back(coords[ind.coord].x);
+                vbo.push_back(coords[ind.coord].y);
+            }
+            if (ind.normal >= 0 && ind.normal < normals.size())  {
+                vbo.push_back(normals[ind.normal].x);
+                vbo.push_back(normals[ind.normal].y);
+                vbo.push_back(normals[ind.normal].z);
+            }
+        }
+    }
+    vertices = std::vector<Vector3>();
+    normals = std::vector<Vector3>();
+    coords = std::vector<Vector2>();
+    triangles = std::vector<Triangle>();
+    v_id = bindVBO(vbo);
+
+}
+
+unsigned int OBJ::bindVBO(std::vector<float> &vbo)  {
+    unsigned int id;
+    glGenBuffers(1,&id);
+    glBindBuffer(GL_ARRAY_BUFFER,id);
+
+    glBufferData(GL_ARRAY_BUFFER,sizeof(float)*vbo.size(),vbo.data(),GL_STATIC_DRAW);//&(*vbo.begin())
+    glBindBuffer(GL_ARRAY_BUFFER,0);
+    return id;
 }
 
 std::vector<std::string> &OBJ::split(const std::string &s, char delim, std::vector<std::string> &elems) {

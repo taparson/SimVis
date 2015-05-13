@@ -53,8 +53,8 @@ public:
     // are confined to another code file for the sake of tidiness.
     //load_trachea('cube.obj');
     _trachea = OBJ();
-    //_trachea.read("objectFiles/Pterostichus2-1-lq.obj");
-    _trachea.read("objectFiles/entireScene.obj","objectFiles/crackedDirtSized.png");
+    _trachea.read("objectFiles/Pterostichus2-1-lq.obj");
+    //_trachea.read("objectFiles/entireScene.obj");//,"objectFiles/crackedDirtSized.png");
   }
 
   virtual ~MyVRApp() {}
@@ -283,7 +283,7 @@ public:
     rd->disableLighting();
     rd->pushState();
     rd->setObjectToWorldMatrix(_virtualToRoomSpace);
-    /*
+    
       // Paramters for our light, including color and position 
     GLfloat ambient[] = {0.0, 0.0, 0.0, 1.0};
     GLfloat diffuse[] = {1.0, 1.0, 1.0, 1.0};
@@ -298,7 +298,7 @@ public:
     glLightModelfv (GL_LIGHT_MODEL_LOCAL_VIEWER, local_view);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 
-      These functions change how the object gets drawn 
+      //These functions change how the object gets drawn 
     glEnable (GL_DEPTH_TEST);
     //glShadeModel(GL_SMOOTH);
     //glEnable(GL_CULL_FACE);
@@ -333,13 +333,16 @@ public:
     glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glDisable(GL_LIGHTING);
-    rd->disableLighting();
-    */
- //   glColor3f(0.2,0.4,.4);    
+    //glDisable(GL_LIGHTING);
+    //rd->disableLighting();
+    
+    glColor3f(0.2,0.4,.4);    
     _trachea.draw();
     glColor3f(1.0,1.0,1.0);
     rd->popState();
+
+    glDisable(GL_LIGHTING);
+    rd->disableLighting();
      
 }
 

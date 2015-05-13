@@ -41,7 +41,7 @@ public:
     std::vector<Triangle> triangles;
 
     void draw() const;
-    bool read(const std::string &path, const std::string &texturePath);
+    bool read(const std::string &path, const std::string &texturePath = "");
     // bool write(const QString &path) const;
 
 private:
@@ -49,7 +49,12 @@ private:
     void drawIndex(const Index &index) const;
     static std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
     static std::vector<std::string> split(const std::string &s, char delim);
-    unsigned int t_id;
+    void constructVBOs();
+    unsigned int bindVBO(std::vector<float> &vbo);
+    int numVertices;
+    unsigned int v_id, t_id;
+    bool tex=true,norm=false;
+    // std::vector<float> vbo;
 };
 
 #endif // OBJ_H
