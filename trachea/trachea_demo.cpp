@@ -237,11 +237,11 @@ public:
         double angle = M_PI/180.0*joystick_x;
         angle /= 15.0;
         CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(0,angle,0));
-        G3D::Vector3 translation = _virtualToRoomSpace.translation;
+        G3D::Vector3 translation = _virtualToRoomSpace.translation - _trackerFrames[string("Wand_Tracker")].translation;
         //_virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
-        _virtualToRoomSpace.translation = _trackerFrames[string("Wand_Tracker")].translation;
+        _virtualToRoomSpace.translation -= translation;
         _virtualToRoomSpace = rotation*_virtualToRoomSpace;
-        _virtualToRoomSpace.translation = translation;
+        _virtualToRoomSpace.translation += translation;
       }
 
       // Translate
@@ -394,7 +394,7 @@ public:
     //rd->disableLighting();
     
     glPushMatrix();    
-    glScalef(.001,.001,.001);
+    glScalef(.005,.005,.005);
     glColor3f(0.794,0.794,.794);
     glEnable(GL_NORMALIZE);
     for (int i = 0; i < _trachea.size(); i++)  {
