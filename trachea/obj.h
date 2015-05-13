@@ -54,6 +54,7 @@ private:
     int numVertices;
     unsigned int v_id, t_id;
     bool tex,norm;
+    Vector3 center;
     // std::vector<float> vbo;
 };
 

@@ -103,6 +103,8 @@ bool OBJ::read(const std::string &path, const std::string &texturePath)
     ifstream myfile (path.c_str(),std::ifstream::in);
     if (myfile.is_open())
     {   
+        Vector3 mins = Vector3(std::numeric_limits<float>::max(),std::numeric_limits<float>::max(),std::numeric_limits<float>::max());
+        Vector3 maxes = Vector3(std::numeric_limits<float>::min(),std::numeric_limits<float>::min(),std::numeric_limits<float>::min());
         std::vector<float> vbo;
         while ( getline (myfile,line) )
         {
@@ -127,8 +129,6 @@ bool OBJ::read(const std::string &path, const std::string &texturePath)
                 // newParts.append(part3);
             }
             else{}
-            Vector3 mins = Vector3(std::numeric_limits<float>::max(),std::numeric_limits<float>::max(),std::numeric_limits<float>::max());
-            Vector3 maxes = Vector3(std::numeric_limits<float>::min(),std::numeric_limits<float>::min(),std::numeric_limits<float>::min());
             if (parts[0] == "v" && parts.size() >= 4) {
                 vertices.push_back(Vector3(part1, part2, part3));
                 if(part1 > maxes.x) maxes.x = part1;
