@@ -59,6 +59,7 @@ public:
   virtual ~MyVRApp() {}
 
   void intialize()  {
+    _grab = false;
     _train = true;
     if(_train)  {
       OBJ t = OBJ();
@@ -155,6 +156,12 @@ public:
       else if (events[i]->getName() == "Wand_Btn1_down")
       {  cout << "Wand btn 1 pressed." << endl;
       }
+      else if (events[i]->getName() == "Wand_Middle_Btn_down")
+      {  _grab = true;
+      }
+      else if (events[i]->getName() == "Wand_Middle_Btn_up")
+      {  _grab = false;
+      }
       else if (events[i]->getName() == "Wand_Btn2_down")
       {  cout << "Wand btn 2 pressed." << endl;
       }
@@ -224,17 +231,44 @@ public:
       }
       
     // Rotate
-    if (fabs(joystick_x) > 0.01) {
-      //fprintf(stderr, "Joystick x: %lf\n", joystick_x);
-      double angle = M_PI/180.0*joystick_x;
-      angle /= 20.0;
-      CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(0,angle,0));
-      _virtualToRoomSpace = rotation*_virtualToRoomSpace;
-    }
+    if(!_grab) {
+      if (fabs(joystick_x) > 0.01) {
+        //fprintf(stderr, "Joystick x: %lf\n", joystick_x);
+        double angle = M_PI/180.0*joystick_x;
+        angle /= 15.0;
+        CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(0,angle,0));
+        Point3 translation = _virtualToRoomSpace.translation;
+        _virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
+        _virtualToRoomSpace = rotation*_virtualToRoomSpace;
+        _virtualToRoomSpace.translation = translation;
+      }
 
-    // Translate
-    if (fabs(joystick_y) > 0.0 && _trackerFrames.containsKey("Wand_Tracker") == true) {
-      _virtualToRoomSpace.translation -= .05f*joystick_y*_trackerFrames[string("Wand_Tracker")].lookVector();
+      // Translate
+      if (fabs(joystick_y) > 0.0 && _trackerFrames.containsKey("Wand_Tracker") == true) {
+        _virtualToRoomSpace.translation -= .015f*joystick_y*_trackerFrames[string("Wand_Tracker")].lookVector();
+      }
+    }
+    else  {
+      if (fabs(joystick_x) > 0.01) {
+        //fprintf(stderr, "Joystick x: %lf\n", joystick_x);
+        double angle = M_PI/180.0*joystick_x;
+        angle /= 15.0;
+        CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(0,0,angle));
+        _virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
+        _virtualToRoomSpace = rotation*_virtualToRoomSpace;
+        _virtualToRoomSpace.translation = translation;
+      }
+
+      // Translate
+      if (fabs(joystick_y) > 0.0 && _trackerFrames.containsKey("Wand_Tracker") == true) {
+        //fprintf(stderr, "Joystick x: %lf\n", joystick_x);
+        double angle = M_PI/180.0*joystick_x;
+        angle /= 15.0;
+        CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(angle,0,0));
+        _virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
+        _virtualToRoomSpace = rotation*_virtualToRoomSpace;
+        _virtualToRoomSpace.translation = translation;
+      }
     }
      
     }  
@@ -378,7 +412,7 @@ protected:
   MouseToTrackerRef _mouseToTracker;
   CoordinateFrame   _virtualToRoomSpace;
   std::vector<OBJ>  _trachea;
-  bool              _train;
+  bool              _train,_grab;
 };
 
 
