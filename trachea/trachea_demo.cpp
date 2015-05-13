@@ -60,6 +60,7 @@ public:
 
   void intialize()  {
     _grab = false;
+    _rotate = false;
     _train = true;
     if(_train)  {
       OBJ t = OBJ();
@@ -162,6 +163,12 @@ public:
       else if (events[i]->getName() == "Wand_Middle_Btn_up")
       {  _grab = false;
       }
+      else if (events[i]->getName() == "Wand_Left_Btn_down")
+      {  _rotate = true;
+      }
+      else if (events[i]->getName() == "Wand_Left_Btn_up")
+      {  _rotate = false;
+      }
       else if (events[i]->getName() == "Wand_Btn2_down")
       {  cout << "Wand btn 2 pressed." << endl;
       }
@@ -231,17 +238,10 @@ public:
       }
       
     // Rotate
-    if(!_grab) {
+    if(!_grab && !_rotate) {
       if (fabs(joystick_x) > 0.01) {
+        _virtualToRoomSpace.translation -= .015f*joystick_x*Vector3(0,0,1);
         //fprintf(stderr, "Joystick x: %lf\n", joystick_x);
-        double angle = M_PI/180.0*joystick_x;
-        angle /= 15.0;
-        CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(0,angle,0));
-        G3D::Vector3 translation = _virtualToRoomSpace.translation - _trackerFrames[string("Wand_Tracker")].translation;
-        //_virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
-        _virtualToRoomSpace.translation -= translation;
-        _virtualToRoomSpace = rotation*_virtualToRoomSpace;
-        _virtualToRoomSpace.translation += translation;
       }
 
       // Translate
@@ -249,7 +249,7 @@ public:
         _virtualToRoomSpace.translation -= .015f*joystick_y*_trackerFrames[string("Wand_Tracker")].lookVector();
       }
     }
-    else  {
+    else if(_grab && !_rotate)  {
       if (fabs(joystick_x) > 0.01) {
         //fprintf(stderr, "Joystick x: %lf\n", joystick_x);
         double angle = M_PI/180.0*joystick_x;
@@ -262,15 +262,27 @@ public:
       }
 
       // Translate
-      if (fabs(joystick_y) > 0.0 && _trackerFrames.containsKey("Wand_Tracker") == true) {
+      if (fabs(joystick_y) > 0.01) {
         //fprintf(stderr, "Joystick x: %lf\n", joystick_x);
-        double angle = M_PI/180.0*joystick_x;
+        double angle = M_PI/180.0*joystick_y;
         angle /= 15.0;
         CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(angle,0,0));
         G3D::Vector3 translation = _virtualToRoomSpace.translation;
         //_virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
         _virtualToRoomSpace = rotation*_virtualToRoomSpace;
         _virtualToRoomSpace.translation = translation;
+      }
+    }
+    else  {
+      if(fabs(joystick_x) > 0.0 ) {
+        double angle = M_PI/180.0*joystick_x;
+        angle /= 15.0;
+        CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(0,angle,0));
+        G3D::Vector3 translation = _virtualToRoomSpace.translation - _trackerFrames[string("Wand_Tracker")].translation;
+        //_virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
+        _virtualToRoomSpace.translation -= translation;
+        _virtualToRoomSpace = rotation*_virtualToRoomSpace;
+        _virtualToRoomSpace.translation += translation;
       }
     }
      
@@ -415,7 +427,7 @@ protected:
   MouseToTrackerRef _mouseToTracker;
   CoordinateFrame   _virtualToRoomSpace;
   std::vector<OBJ>  _trachea;
-  bool              _train,_grab;
+  bool              _train,_grab,_rotate;
 };
 
 
