@@ -59,21 +59,22 @@ public:
   virtual ~MyVRApp() {}
 
   void intialize()  {
+    _train = true;
     if(_train)  {
       OBJ t = OBJ();
-      _trachea.push_back(t);
       t.read("objectFiles/Pterostichus2-1-lq.obj");
+      _trachea.push_back(t);
     }
     else  {
       for (int i = 0; i < 25; i++)  {
         OBJ t = OBJ();
-        _trachea.push_back(t);
         std::string str = "objectFiles/P_Surface";
         std::stringstream ss;
         ss << i;
         str += ss.str();
         str += ".obj";
         t.read(str);
+        _trachea.push_back(t);
       }
     }
   }
