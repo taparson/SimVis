@@ -238,7 +238,8 @@ public:
         angle /= 15.0;
         CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(0,angle,0));
         Point3 translation = _virtualToRoomSpace.translation;
-        _virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
+        //_virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
+        _virtualToRoomSpace.translation = _trackerFrames[string("Wand_Tracker")].translation;
         _virtualToRoomSpace = rotation*_virtualToRoomSpace;
         _virtualToRoomSpace.translation = translation;
       }
@@ -254,7 +255,8 @@ public:
         double angle = M_PI/180.0*joystick_x;
         angle /= 15.0;
         CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(0,0,angle));
-        _virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
+         Point3 translation = _virtualToRoomSpace.translation;
+        //_virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
         _virtualToRoomSpace = rotation*_virtualToRoomSpace;
         _virtualToRoomSpace.translation = translation;
       }
@@ -265,7 +267,8 @@ public:
         double angle = M_PI/180.0*joystick_x;
         angle /= 15.0;
         CoordinateFrame rotation = CoordinateFrame(Matrix3::fromEulerAnglesXYZ(angle,0,0));
-        _virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
+         Point3 translation = _virtualToRoomSpace.translation;
+        //_virtualToRoomSpace.moveTowards(_trackerFrames[string("Wand_Tracker")],std::numeric_limits<float>::max(),0);
         _virtualToRoomSpace = rotation*_virtualToRoomSpace;
         _virtualToRoomSpace.translation = translation;
       }
