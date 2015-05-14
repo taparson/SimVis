@@ -36,7 +36,7 @@ public:
     // initialize the VRApp
      Log  *demoLog = new Log("demo-log.txt");
      init(mySetup, demoLog);
-
+     _tracheaApp = new TracheaVRApp(mySetup);
      _mouseToTracker = new MouseToTracker(getCamera(), 2);
 
      // Initialize the coordinate frame for the display.
@@ -286,7 +286,6 @@ int main( int argc, char **argv )
 
   // This opens up the graphics window, and starts connections to
   // input devices, but doesn't actually start rendering yet.
-    _tracheaApp = new TracheaVRApp(setupStr);
     app = new MyVRApp(setupStr);
 
     // This starts the rendering/input processing loop
