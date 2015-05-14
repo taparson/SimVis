@@ -72,7 +72,7 @@ public:
             std::vector<std::string> parts = OBJ::split(line,',');
             if(parts.size() == 2) {
               OBJ o = OBJ();
-              part[1] = part[1].substr(0,part[1].length() -1);
+              parts[1] = parts[1].substr(0,parts[1].length() -1);
               o.read(parts[0],parts[1]);
               _background.push_back(o);
             }
