@@ -25,7 +25,7 @@ using namespace G3D;
 */
 
 
-class TracheaVRApp : public TracheaVRApp
+class TracheaVRApp : public VRApp
 {
 public:
   TracheaVRApp(const std::string &mySetup) : VRApp()

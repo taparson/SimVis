@@ -43,12 +43,12 @@ public:
     void draw() const;
     bool read(const std::string &path, const std::string &texturePath = "");
     // bool write(const QString &path) const;
+    static std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
+    static std::vector<std::string> split(const std::string &s, char delim);
 
 private:
     Index getIndex(const std::string &str) const;
     void drawIndex(const Index &index) const;
-    static std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
-    static std::vector<std::string> split(const std::string &s, char delim);
     void constructVBOs();
     unsigned int bindVBO(std::vector<float> &vbo);
     int numVertices;
