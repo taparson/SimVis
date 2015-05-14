@@ -70,7 +70,7 @@ public:
         while ( getline (myfile,line) ) 
         {
             std::vector<std::string> parts = OBJ::split(line,',');
-            if(parts.size() == 2) {
+            if(parts.size() == 3) {
               OBJ o = OBJ();
               o.read(parts[0],parts[1]);
               _background.push_back(o);
@@ -83,7 +83,7 @@ public:
     if (nextfile.is_open()) {
       while( getline (nextfile,line) ) {
         std::vector<std::string> parts = OBJ::split(line,',');
-        if(parts.size() == 2) {
+        if(parts.size() == 3) {
           OBJ o = OBJ();
           o.read(parts[0],parts[1]);
           _stencil.push_back(o);
