@@ -36,7 +36,7 @@ public:
     // initialize the VRApp
      Log  *demoLog = new Log("demo-log.txt");
      init(mySetup, demoLog);
-     _tracheaApp = new TracheaVRApp(mySetup);
+     ///_tracheaApp = new TracheaVRApp(mySetup);
      _mouseToTracker = new MouseToTracker(getCamera(), 2);
 
      // Initialize the coordinate frame for the display.
@@ -97,7 +97,7 @@ public:
 
   void doUserInput(Array<VRG3D::EventRef> &events)
   {
-   _tracheaApp->doUserInput(events); 
+   //_tracheaApp->doUserInput(events); 
   }
 
   void doGraphics(RenderDevice *rd)
@@ -221,37 +221,37 @@ public:
       _stencil[i].draw();
     }
 
-    glClear(GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_STENCIL_TEST);
-    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-    glDepthMask(GL_FALSE);
-    glStencilFunc(GL_NEVER, 1, 0xFF);
-    glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);  // draw 1s on test fail (always)
+    // glClear(GL_DEPTH_BUFFER_BIT);
+    // glEnable(GL_STENCIL_TEST);
+    // glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    // glDepthMask(GL_FALSE);
+    // glStencilFunc(GL_NEVER, 1, 0xFF);
+    // glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);  // draw 1s on test fail (always)
    
-    // draw stencil pattern
-    glStencilMask(0xFF);
-    glClear(GL_STENCIL_BUFFER_BIT);  // needs mask=0xFF
-    for(int i = 0; i < _stencil.size(); i++)  {
-      _stencil[i].draw();
-    }
+    // // draw stencil pattern
+    // glStencilMask(0xFF);
+    // glClear(GL_STENCIL_BUFFER_BIT);  // needs mask=0xFF
+    // for(int i = 0; i < _stencil.size(); i++)  {
+    //   _stencil[i].draw();
+    // }
    
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-    glDepthMask(GL_TRUE);
-    glStencilMask(0x00);
-    // draw where stencil's value is 0
-    glStencilFunc(GL_EQUAL, 0, 0xFF);
-    /* (nothing to draw) */
-    // draw only where stencil's value is 1
-    glStencilFunc(GL_EQUAL, 1, 0xFF);
+    // glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    // glDepthMask(GL_TRUE);
+    // glStencilMask(0x00);
+    // // draw where stencil's value is 0
+    // glStencilFunc(GL_EQUAL, 0, 0xFF);
+    // /* (nothing to draw) */
+    // // draw only where stencil's value is 1
+    // glStencilFunc(GL_EQUAL, 1, 0xFF);
    
-    glColor4f(1.0f,1.0f,1.0f,.4f);
-    _tracheaApp->doGraphics(rd);
-    glColor4f(1.0f,1.0f,1.0f,.4f);
-    for(int i = 0; i < _stencil.size(); i++)  {
-      _stencil[i].draw();
-    }
+    // glColor4f(1.0f,1.0f,1.0f,.4f);
+    // //_tracheaApp->doGraphics(rd);
+    // glColor4f(1.0f,1.0f,1.0f,.4f);
+    // for(int i = 0; i < _stencil.size(); i++)  {
+    //   _stencil[i].draw();
+    // }
  
-    glDisable(GL_STENCIL_TEST);
+    // glDisable(GL_STENCIL_TEST);
     rd->popState();
 
     glDisable(GL_LIGHTING);
