@@ -87,11 +87,14 @@ bool OBJ::read(const std::string &path, const std::string &texturePath)
     tex = true;
     norm = false;
     std::cout << "reading..." << path << "with texture: " << texturePath << std::endl;
-    std::string other = "objectFiles/crackedDirtSized.png";
+    std::string other = "Granoff/beamTexture.png";
+    texturePath = texturePath.substr(0,texturePath.size()-1);
+    std::cout << texturePath << "," << texturePath.size() << std::endl;
+    std::cout << other << "," << other.size() << std::endl;
     if(texturePath != "")  {
         unsigned int id = SOIL_load_OGL_texture(texturePath.c_str(),SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
-        //id = SOIL_load_OGL_texture(other.c_str(),SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
-        //std::cout << "id: " << id << ", other id: " << other_id << std::endl;
+        unsigned int other_id = SOIL_load_OGL_texture(other.c_str(),SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
+        std::cout << "id: " << id << ", other id: " << other_id << std::endl;
         if(id != 0) {
             glBindTexture(GL_TEXTURE_2D, id);
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
