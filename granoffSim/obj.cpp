@@ -87,6 +87,7 @@ bool OBJ::read(const std::string &path, const std::string &texturePath)
     tex = true;
     norm = false;
     std::cout << "reading..." << path << "with texture: " << texturePath << std::endl;
+    texturePath = "objectFiles/crackedDirtSized.png";
     if(texturePath != "")  {
         unsigned int id = SOIL_load_OGL_texture(texturePath.c_str(),SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
         if(id == 0) {

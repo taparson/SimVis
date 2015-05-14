@@ -2,6 +2,6 @@ Granoff/ceiling.obj,Granoff/concreteTexture.jpg
 Granoff/ceilingTiles.obj,tileTexture.jpg
 Granoff/floor.obj,Granoff/floorTexture.jpg
 Granoff/frontBeam.obj,Granoff/darkBeamTexture.jpg
-Granoff/frontFloor.obj,Granoff/darkCanvasTexture.jpg
+Granoff/frontFloor.obj,Granoff/darkCanvasTexture.png
 Granoff/walls.obj,Granoff/wallTexture
 Granoff/woodBeams.obj,Granoff/beamTexture
