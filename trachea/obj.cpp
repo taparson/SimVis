@@ -53,7 +53,7 @@ void OBJ::draw() const
 // }
 
 {
-    glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_DEPTH_TEST);
     //glEnable(GL_NORMALIZE);
     //glPushMatrix();
     //glTranslatef(-1.0f*center.x,-1.0f*center.y,-1.0f*center.z);

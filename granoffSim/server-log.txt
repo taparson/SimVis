@@ -1,0 +1,49 @@
+Application Log
+Start: Tue May 12 17:25:06 2015
+
+Creating a listener            Ok
+Set socket option reuseaddr.
+Binding socket 4 on port 4045 Ok
+Listening on port  4045        Ok
+Now listening on socket 4.
+
+Blocking in NetListener::waitForConnection().
+192.168.1.15 connected, transferred to socket 5.
+Disabled Nagel's algorithm.
+Set socket option no_linger.
+Set socket option reuseaddr.
+SOL_SOCKET/SO_RCVBUF = 87380
+SOL_SOCKET/SO_SNDBUF = 23720
+SOL_SOCKET/SO_RCVTIMEO = 0
+SOL_SOCKET/SO_SNDTIMEO = 0
+Blocking in NetListener::waitForConnection().
+192.168.1.15 connected, transferred to socket 6.
+Disabled Nagel's algorithm.
+Set socket option no_linger.
+Set socket option reuseaddr.
+SOL_SOCKET/SO_RCVBUF = 87380
+SOL_SOCKET/SO_SNDBUF = 23720
+SOL_SOCKET/SO_RCVTIMEO = 0
+SOL_SOCKET/SO_SNDTIMEO = 0
+Blocking in NetListener::waitForConnection().
+192.168.1.15 connected, transferred to socket 7.
+Disabled Nagel's algorithm.
+Set socket option no_linger.
+Set socket option reuseaddr.
+SOL_SOCKET/SO_RCVBUF = 87380
+SOL_SOCKET/SO_SNDBUF = 23720
+SOL_SOCKET/SO_RCVTIMEO = 0
+SOL_SOCKET/SO_SNDTIMEO = 0
+Blocking in NetListener::waitForConnection().
+192.168.1.15 connected, transferred to socket 8.
+Disabled Nagel's algorithm.
+Set socket option no_linger.
+Set socket option reuseaddr.
+SOL_SOCKET/SO_RCVBUF = 87380
+SOL_SOCKET/SO_SNDBUF = 23720
+SOL_SOCKET/SO_RCVTIMEO = 0
+SOL_SOCKET/SO_SNDTIMEO = 0
+Call to recv failed.  ret = 0, sizeof(messageType) = 4
+CODE 0: Success
+
+Closed socket 6
