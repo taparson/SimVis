@@ -64,7 +64,7 @@ public:
   void intialize()  {
     _tracheaVRApp.initialize();
      std::string line;
-    ifstream myfile ("background.obl",std::ifstream::in);
+    std::ifstream myfile ("background.obl",std::ifstream::in);
     if (myfile.is_open())
     {  
         while ( getline (myfile,line) ) 
