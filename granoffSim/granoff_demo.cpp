@@ -46,7 +46,7 @@ public:
     // board, which is confusing for the viewer on startup, and
     // renders poorly too. Let's move the virtual space up a few units
     // for a more sensible view.
-    _virtualToRoomSpace = CoordinateFrame(Vector3(0,-3.0,0)) * _virtualToRoomSpace;
+    //_virtualToRoomSpace = CoordinateFrame(Vector3(0,-3.0,0)) * _virtualToRoomSpace;
 
     // This is the background -- the color that appears where there is
     // nothing to render, and we'll use a nice soothing blue.

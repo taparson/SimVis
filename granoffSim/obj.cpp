@@ -89,13 +89,14 @@ bool OBJ::read(const std::string &path, const std::string &texturePath)
     std::cout << "reading..." << path << "with texture: " << texturePath << std::endl;
     if(texturePath != "")  {
         unsigned int id = SOIL_load_OGL_texture(texturePath.c_str(),SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
-        if(id == 0) return -1;
-        glBindTexture(GL_TEXTURE_2D, id);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
-
+        if(id == 0) {
+            glBindTexture(GL_TEXTURE_2D, id);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+        }
+        else tex = false;
         t_id = id;    
     }
     else tex = false;
@@ -104,7 +105,6 @@ bool OBJ::read(const std::string &path, const std::string &texturePath)
     ifstream myfile (path.c_str(),std::ifstream::in);
     if (myfile.is_open())
     {   
-        std::cout << "here" << std::endl;
         Vector3 mins = Vector3(std::numeric_limits<float>::max(),std::numeric_limits<float>::max(),std::numeric_limits<float>::max());
         Vector3 maxes = Vector3(std::numeric_limits<float>::min(),std::numeric_limits<float>::min(),std::numeric_limits<float>::min());
         std::vector<float> vbo;
@@ -165,7 +165,6 @@ bool OBJ::read(const std::string &path, const std::string &texturePath)
                             numVertices += 1;
                         }
                         if(ind.coord >= 0 && ind.coord < coords.size() && tex)  {
-                            std::cout << "meow" << std::endl;
                             vbo.push_back(coords[ind.coord].x);
                             vbo.push_back(coords[ind.coord].y);
                         }
@@ -188,7 +187,7 @@ bool OBJ::read(const std::string &path, const std::string &texturePath)
         vertices = std::vector<Vector3>();
         normals = std::vector<Vector3>();
         coords = std::vector<Vector2>();
-        std::cout << "binding vbo of size" << vbo.size() << "..." << std::endl;
+        std::cout << "binding vbo of size " << vbo.size() << "..." << std::endl;
         v_id = bindVBO(vbo);
         std::cout << "done reading file" << std::endl;
     }
