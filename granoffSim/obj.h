@@ -39,6 +39,7 @@ public:
     std::vector<Vector2> coords;
     std::vector<Vector3> normals;
     std::vector<Triangle> triangles;
+    Vector3 translation;
 
     void draw(Vector3 translate = Vector3(0,0,0)) const;
     bool read(const std::string &path, const std::string &texturePath = "");

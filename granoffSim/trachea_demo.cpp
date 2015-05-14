@@ -240,13 +240,15 @@ public:
     // Rotate
     if(!_grab && !_rotate) {
       if (fabs(joystick_x) > 0.01) {
-        _virtualToRoomSpace.translation -= .015f*joystick_x*Vector3(-1.0,0,0);
+        //_virtualToRoomSpace.translation -= .015f*joystick_x*Vector3(-1.0,0,0);
+        translation -= .015f*joystick_x*Vector3(-1.0,0,0);
         //fprintf(stderr, "Joystick x: %lf\n", joystick_x);
       }
 
       // Translate
       if (fabs(joystick_y) > 0.0 && _trackerFrames.containsKey("Wand_Tracker") == true) {
-        _virtualToRoomSpace.translation -= .015f*joystick_y*_trackerFrames[string("Wand_Tracker")].lookVector();
+        //_virtualToRoomSpace.translation -= .015f*joystick_y*_trackerFrames[string("Wand_Tracker")].lookVector();
+        translation -= .015f*joystick_y*_trackerFrames[string("Wand_Tracker")].lookVector();
       }
     }
     else if(_grab && !_rotate)  {
@@ -411,7 +413,6 @@ public:
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     //glDisable(GL_LIGHTING);
     //rd->disableLighting();
-    
     glPushMatrix();    
     glScalef(.005,.005,.005);
     glColor3f(0.794,0.794,.794);
@@ -435,6 +436,7 @@ protected:
   CoordinateFrame   _virtualToRoomSpace,_oldVirtualToRoomSpace;
   std::vector<OBJ>  _trachea;
   bool              _train,_grab,_rotate;
+  Vector3           translation;
 };
 
 

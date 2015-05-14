@@ -53,11 +53,14 @@ void OBJ::draw(Vector3 translate) const
 // }
 
 {
-    glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_DEPTH_TEST);
     //glEnable(GL_NORMALIZE);
     //glPushMatrix();
     //glTranslatef(-1.0f*center.x,-1.0f*center.y,-1.0f*center.z);
     //glScalef(.001,.001,.001);
+
+    translation += translate;
+
     if(tex) {glBindTexture(GL_TEXTURE_2D,t_id); glEnable(GL_TEXTURE_2D);glEnableClientState(GL_TEXTURE_COORD_ARRAY);}
 
     glBindBuffer(GL_ARRAY_BUFFER,v_id);
