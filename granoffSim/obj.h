@@ -40,7 +40,7 @@ public:
     std::vector<Vector3> normals;
     std::vector<Triangle> triangles;
 
-    void draw() const;
+    void draw(Vector3 translate = Vector3(0,0,0)) const;
     bool read(const std::string &path, const std::string &texturePath = "");
     // bool write(const QString &path) const;
     static std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
