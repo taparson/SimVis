@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void OBJ::draw() const
+void OBJ::draw(Vector3 translate) const
 // {
 //     glEnable(GL_TEXTURE_2D);
 //     glEnable(GL_DEPTH_TEST);
