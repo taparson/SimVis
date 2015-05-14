@@ -59,11 +59,11 @@ public:
     //_trachea.read("objectFiles/entireScene.obj");//,"objectFiles/crackedDirtSized.png");
   }
 
-  virtual ~MyVRApp() {delete _tracheaApp}
+  virtual ~MyVRApp() {delete _tracheaApp;}
 
   void intialize()  {
     _tracheaVRApp.initialize();
-     std::string line;
+    std::string line;
     std::ifstream myfile ("background.obl",std::ifstream::in);
     if (myfile.is_open())
     {  
