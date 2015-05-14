@@ -166,7 +166,7 @@ public:
       // Paramters for our light, including color and position 
     GLfloat ambient[] = {0.0, 0.0, 0.0, 1.0};
     GLfloat diffuse[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat position[] = {0.0, 3.0, 3.0, 0.0};
+    GLfloat position[] = {0.0, 0.0, 3.0, 0.0};
     GLfloat lmodel_ambient[] = {0.2, 0.2, 0.2, 1.0};
     GLfloat local_view[] = {0.0};
 
