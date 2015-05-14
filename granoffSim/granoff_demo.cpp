@@ -63,7 +63,6 @@ public:
   virtual ~MyVRApp() {delete _tracheaApp;}
 
   void intialize()  {
-    _tracheaApp->initialize();
     std::string line;
     std::ifstream myfile ("background.obl",std::ifstream::in);
     if (myfile.is_open())
@@ -246,7 +245,7 @@ public:
     glStencilFunc(GL_EQUAL, 1, 0xFF);
    
     glColor4f(1.0f,1.0f,1.0f,.4f);
-    _tracheaApp->doGraphics();
+    _tracheaApp->doGraphics(rd);
     glColor4f(1.0f,1.0f,1.0f,.4f);
     for(int i = 0; i < _stencil.size(); i++)  {
       _stencil[i].draw();
