@@ -86,7 +86,7 @@ bool OBJ::read(const std::string &path, const std::string &texturePath)
     // Open the file
     tex = true;
     norm = false;
-    std::cout << "reading..." << std::endl;
+    std::cout << "reading..." << path << "with texture: " << texturePath << std::endl;
     if(texturePath != "")  {
         unsigned int id = SOIL_load_OGL_texture(texturePath.c_str(),SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
         if(id == 0) return -1;
