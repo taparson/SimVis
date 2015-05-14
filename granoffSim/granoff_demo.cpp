@@ -214,6 +214,7 @@ public:
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     //glDisable(GL_LIGHTING);
     //rd->disableLighting();
+    glScalef(3.15,3.15,3.15);
     for(int i = 0; i < _background.size(); i++)  {
       _background[i].draw();
     }
