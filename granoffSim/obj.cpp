@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void OBJ::draw(Vector3 translate) const
+void OBJ::draw() const
 // {
 //     glEnable(GL_TEXTURE_2D);
 //     glEnable(GL_DEPTH_TEST);
@@ -58,8 +58,6 @@ void OBJ::draw(Vector3 translate) const
     //glPushMatrix();
     //glTranslatef(-1.0f*center.x,-1.0f*center.y,-1.0f*center.z);
     //glScalef(.001,.001,.001);
-
-    translation += translate;
 
     if(tex) {glBindTexture(GL_TEXTURE_2D,t_id); glEnable(GL_TEXTURE_2D);glEnableClientState(GL_TEXTURE_COORD_ARRAY);}
 
