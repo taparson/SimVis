@@ -1,7 +1,7 @@
-Granoff/ceiling.obj,Granoff/concreteTexture.jpg
-Granoff/ceilingTiles.obj,tileTexture.jpg
-Granoff/floor.obj,Granoff/floorTexture.jpg
-Granoff/frontBeam.obj,Granoff/darkBeamTexture.jpg
+Granoff/ceiling.obj,Granoff/concreteTexture.png
+Granoff/ceilingTiles.obj,Granoff/tileTexture.png
+Granoff/floor.obj,Granoff/floorTexture.png
+Granoff/frontBeam.obj,Granoff/darkBeamTexture.png
 Granoff/frontFloor.obj,Granoff/darkCanvasTexture.png
-Granoff/walls.obj,Granoff/wallTexture
-Granoff/woodBeams.obj,Granoff/beamTexture
+Granoff/walls.obj,Granoff/wallTexture.png
+Granoff/woodBeams.obj,Granoff/beamTexture.png
