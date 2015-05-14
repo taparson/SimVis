@@ -62,7 +62,7 @@ public:
   virtual ~MyVRApp() {delete _tracheaApp;}
 
   void intialize()  {
-    _tracheaVRApp.initialize();
+    _tracheaApp.initialize();
     std::string line;
     std::ifstream myfile ("background.obl",std::ifstream::in);
     if (myfile.is_open())
@@ -72,7 +72,7 @@ public:
             std::vector<std::string> parts = OBJ::split(line,',');
             if(parts.size() == 2) {
               OBJ o = OBJ();
-              o.read(parts[0],parts[1])
+              o.read(parts[0],parts[1]);
               _background.push_back(o);
             }
         }
@@ -85,7 +85,7 @@ public:
         std::vector<std::string> parts = OBJ::split(line,',');
         if(parts.size() == 2) {
           OBJ o = OBJ();
-          o.read(parts[0],parts[1])
+          o.read(parts[0],parts[1]);
           _stencil.push_back(o);
         }
 
