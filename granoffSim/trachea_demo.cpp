@@ -32,7 +32,7 @@ public:
   {
     // initialize the VRApp
      Log  *demoLog = new Log("demo-log.txt");
-     init(mySetup, demoLog);
+     //init(mySetup, demoLog);
 
      _mouseToTracker = new MouseToTracker(getCamera(), 2);
 
