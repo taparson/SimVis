@@ -245,7 +245,7 @@ public:
     glStencilFunc(GL_EQUAL, 1, 0xFF);
    
     glColor4f(1.0f,1.0f,1.0f,.4f);
-    rd->doGraphics();
+    _tracheaApp->doGraphics();
     glColor4f(1.0f,1.0f,1.0f,.4f);
     for(int i = 0; i < _stencil.size(); i++)  {
       _stencil[i].draw();

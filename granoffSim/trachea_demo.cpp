@@ -440,27 +440,27 @@ protected:
 
 
 
-int main( int argc, char **argv )
-{
-  // The first argument to the program tells us which of the known VR
-  // setups to start
-  std::string setupStr;
-  TracheaVRApp *app;
+// int main( int argc, char **argv )
+// {
+//   // The first argument to the program tells us which of the known VR
+//   // setups to start
+//   std::string setupStr;
+//   TracheaVRApp *app;
   
-  if (argc >= 2)
-  {  setupStr = std::string(argv[1]);
-  }
+//   if (argc >= 2)
+//   {  setupStr = std::string(argv[1]);
+//   }
 
-  // This opens up the graphics window, and starts connections to
-  // input devices, but doesn't actually start rendering yet.
+//   // This opens up the graphics window, and starts connections to
+//   // input devices, but doesn't actually start rendering yet.
   
-    app = new TracheaVRApp(setupStr);
+//     app = new TracheaVRApp(setupStr);
 
-    // This starts the rendering/input processing loop
-    app->run();
+//     // This starts the rendering/input processing loop
+//     app->run();
 
-  return 0;
-}
+//   return 0;
+// }
 
 
 //
