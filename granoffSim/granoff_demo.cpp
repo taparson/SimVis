@@ -14,6 +14,7 @@
 #include <GL/glut.h>
 #include "obj.h"
 #include "trachea_demo.cpp"
+#include <fstream>
 
 using namespace G3D;
 
@@ -62,7 +63,7 @@ public:
   virtual ~MyVRApp() {delete _tracheaApp;}
 
   void intialize()  {
-    _tracheaApp.initialize();
+    _tracheaApp->initialize();
     std::string line;
     std::ifstream myfile ("background.obl",std::ifstream::in);
     if (myfile.is_open())
