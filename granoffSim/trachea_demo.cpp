@@ -34,7 +34,7 @@ public:
      Log  *demoLog = new Log("demo-log.txt");
      //init(mySetup, demoLog);
 
-     _mouseToTracker = new MouseToTracker(getCamera(), 2);
+     //_mouseToTracker = new MouseToTracker(getCamera(), 2);
 
      // Initialize the coordinate frame for the display.
     _virtualToRoomSpace = CoordinateFrame();
@@ -240,15 +240,15 @@ public:
     // Rotate
     if(!_grab && !_rotate) {
       if (fabs(joystick_x) > 0.01) {
-        //_virtualToRoomSpace.translation -= .015f*joystick_x*Vector3(-1.0,0,0);
-        translation += .015f*joystick_x*Vector3(-1.0,0,0);
+        _virtualToRoomSpace.translation -= .015f*joystick_x*Vector3(-1.0,0,0);
+        //translation += .015f*joystick_x*Vector3(-1.0,0,0);
         //fprintf(stderr, "Joystick x: %lf\n", joystick_x);
       }
 
       // Translate
       if (fabs(joystick_y) > 0.0 && _trackerFrames.containsKey("Wand_Tracker") == true) {
-        //_virtualToRoomSpace.translation -= .015f*joystick_y*_trackerFrames[string("Wand_Tracker")].lookVector();
-        translation += .015f*joystick_y*_trackerFrames[string("Wand_Tracker")].lookVector();
+        _virtualToRoomSpace.translation -= .015f*joystick_y*_trackerFrames[string("Wand_Tracker")].lookVector();
+        //translation += .015f*joystick_y*_trackerFrames[string("Wand_Tracker")].lookVector();
       }
     }
     else if(_grab && !_rotate)  {
