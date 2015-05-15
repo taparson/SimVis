@@ -36,7 +36,7 @@ public:
     // initialize the VRApp
      Log  *demoLog = new Log("demo-log.txt");
      init(mySetup, demoLog);
-     ///_tracheaApp = new TracheaVRApp(mySetup);
+     _tracheaApp = new TracheaVRApp(mySetup);
      _mouseToTracker = new MouseToTracker(getCamera(), 2);
 
      // Initialize the coordinate frame for the display.
@@ -57,7 +57,7 @@ public:
     //load_trachea('cube.obj');
 
     intialize();
-    //_trachea.read("objectFiles/entireScene.obj");//,"objectFiles/crackedDirtSized.png");
+    _trachea.read("objectFiles/entireScene.obj");//,"objectFiles/crackedDirtSized.png");
   }
 
   virtual ~MyVRApp() {delete _tracheaApp;}
