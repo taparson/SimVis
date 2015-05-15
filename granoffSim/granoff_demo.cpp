@@ -36,7 +36,7 @@ public:
     // initialize the VRApp
      Log  *demoLog = new Log("demo-log.txt");
      init(mySetup, demoLog);
-     _tracheaApp = new TracheaVRApp(mySetup);
+     // _tracheaApp = new TracheaVRApp(mySetup);
      _mouseToTracker = new MouseToTracker(getCamera(), 2);
 
      // Initialize the coordinate frame for the display.
@@ -97,7 +97,7 @@ public:
 
   void doUserInput(Array<VRG3D::EventRef> &events)
   {
-   _tracheaApp->doUserInput(events); 
+   // _tracheaApp->doUserInput(events); 
   }
 
   void doGraphics(RenderDevice *rd)
@@ -252,7 +252,7 @@ public:
     // // }
  
     // glDisable(GL_STENCIL_TEST);
-    // rd->popState();
+    rd->popState();
 
     glDisable(GL_LIGHTING);
     rd->disableLighting();
