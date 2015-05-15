@@ -57,7 +57,7 @@ public:
     //load_trachea('cube.obj');
 
     intialize();
-    _trachea.read("objectFiles/entireScene.obj");//,"objectFiles/crackedDirtSized.png");
+    //_tracheaApp.read("objectFiles/entireScene.obj");//,"objectFiles/crackedDirtSized.png");
   }
 
   virtual ~MyVRApp() {delete _tracheaApp;}
@@ -97,7 +97,7 @@ public:
 
   void doUserInput(Array<VRG3D::EventRef> &events)
   {
-   //_tracheaApp->doUserInput(events); 
+   _tracheaApp->doUserInput(events); 
   }
 
   void doGraphics(RenderDevice *rd)
