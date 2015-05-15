@@ -247,10 +247,10 @@ public:
    
     glColor4f(1.0f,1.0f,1.0f,.4f);
     _tracheaApp->doGraphics(rd);
-    glColor4f(1.0f,1.0f,1.0f,.4f);
-    for(int i = 0; i < _stencil.size(); i++)  {
-      _stencil[i].draw();
-    }
+    // glColor4f(1.0f,1.0f,1.0f,.4f);
+    // for(int i = 0; i < _stencil.size(); i++)  {
+    //   _stencil[i].draw();
+    // }
  
     glDisable(GL_STENCIL_TEST);
     rd->popState();
