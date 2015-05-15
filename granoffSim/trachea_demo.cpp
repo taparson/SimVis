@@ -415,7 +415,7 @@ public:
     //rd->disableLighting();
     glPushMatrix();    
     glScalef(.005,.005,.005);
-    glColor3f(0.794,0.794,.794);
+    glColor3f(0.500,500,.500);
     glEnable(GL_NORMALIZE);
     for (int i = 0; i < _trachea.size(); i++)  {
       _trachea[i].draw();
